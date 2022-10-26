@@ -1,0 +1,64 @@
+<form data-vv-scope="shipping-form" class="shipping-form">
+    <div class="form-container">
+        <accordian :title="'<?php echo e(__('shop::app.checkout.onepage.shipping-method')); ?>'" :active="true">
+            <div class="form-header" slot="header">
+                <h3 class="fw6 display-inbl">
+                 <?php echo e(__('shop::app.checkout.onepage.shipping-method')); ?>
+
+                </h3>
+                <i class="rango-arrow"></i>
+            </div>
+
+            <div :class="`shipping-methods ${errors.has('shipping-form.shipping_method') ? 'has-error' : ''}`" slot="body">
+
+                <?php $__currentLoopData = $shippingRateGroups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rateGroup): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+                    <?php echo view_render_event('bagisto.shop.checkout.shipping-method.before', ['rateGroup' => $rateGroup]); ?>
+
+                        <?php $__currentLoopData = $rateGroup['rates']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rate): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="row col-12">
+                                <div>
+                                    <label class="radio-container">
+                                        <input
+                                            type="radio"
+                                            v-validate="'required'"
+                                            name="shipping_method"
+                                            id="<?php echo e($rate->method); ?>"
+                                            value="<?php echo e($rate->method); ?>"
+                                            @change="methodSelected()"
+                                            v-model="selected_shipping_method"
+                                            data-vv-as="&quot;<?php echo e(__('shop::app.checkout.onepage.shipping-method')); ?>&quot;" />
+
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+
+                                <div class="pl30">
+                                    <div class="row">
+                                        <b><?php echo e(core()->currency($rate->base_price)); ?></b>
+                                    </div>
+
+                                    <div class="row">
+                                        <b><?php echo e($rate->method_title); ?></b> - <?php echo e(__($rate->method_description)); ?>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                    <?php echo view_render_event('bagisto.shop.checkout.shipping-method.after', ['rateGroup' => $rateGroup]); ?>
+
+
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                <span
+                    class="control-error"
+                    v-if="errors.has('shipping-form.shipping_method')">
+
+                    {{ errors.first('shipping-form.shipping_method') }}
+                </span>
+            </div>
+        </accordian>
+    </div>
+</form><?php /**PATH C:\wamp64\www\weavers-v1/resources/themes/velocity/views/checkout/onepage/shipping.blade.php ENDPATH**/ ?>
