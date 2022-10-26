@@ -1,3 +1,4 @@
+use Illuminate\Http\Request;
 <?php
 
 $location = str_replace('\\', '/', getcwd());
@@ -42,6 +43,23 @@ if (! is_null($install)) {
 
 define('LARAVEL_START', microtime(true));
 
+/**
+ * Return a new JSON response from the application.
+ *
+ * @param  string|array  $data
+ * @param  int  $status
+ * @param  array  $headers
+ * @param  int  $options
+ * @return \Illuminate\Http\JsonResponse
+ */
+
+public function json($data = [], $status = 200, array $headers = [], $options = 0)
+{
+    if ($data instanceof Arrayable && ! $data instanceof JsonSerializable) {
+        $data = $data->toArray();
+    }
+    return new JsonResponse($data, $status, $headers, $options);
+}
 /*
 |--------------------------------------------------------------------------
 | Turn On The Lights
@@ -67,7 +85,7 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 | and wonderful application we have prepared for them.
 |
 */
-
+use Illuminate\Http\Request;
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(

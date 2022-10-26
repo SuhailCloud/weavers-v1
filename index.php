@@ -36,7 +36,7 @@ $VirtualHostMenu = $wampConf['VirtualHostSubMenu'];
 $port = $wampConf['apachePortUsed'];
 $UrlPort = $port !== "80" ? ":".$port : '';
 //On récupère le ou les valeurs des ports en écoute dans Apache
-$ListenPorts = implode(' - ',listen_ports());
+//$ListenPorts = implode(' - ',listen_ports());
 //on récupère la valeur de mysqlPortUsed
 $Mysqlport = $wampConf['mysqlPortUsed'];
 
